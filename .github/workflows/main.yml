@@ -1,0 +1,32 @@
+name: R Autograding – ggplot2 Program 1
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3'   # or any recent stable version[web:14]
+
+      - name: Install dependencies
+      # Install ggplot2 and testthat needed for grading
+        run: |
+          install.packages(c("ggplot2", "testthat"))
+        shell: Rscript {0}[web:14]
+
+      - name: Run tests
+        run: |
+          library(testthat)
+          testthat::test_dir("tests/testthat")
+        shell: Rscript {0}[web:14][web:15]
